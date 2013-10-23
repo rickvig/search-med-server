@@ -42,13 +42,13 @@ body {
 	margin: 0 auto;
 	max-width: 960px;
 	overflow-x: hidden; /* prevents box-shadow causing a horizontal scrollbar in firefox when viewport < 960px wide */
-	   -moz-box-shadow: 0 0 0.3em #255b17;
-	-webkit-box-shadow: 0 0 0.3em #255b17;
-	        box-shadow: 0 0 0.3em #255b17;
+	   -moz-box-shadow: 0 0 0.3em #000E71; /* old color: #255b17; */
+	-webkit-box-shadow: 0 0 0.3em #000E71;
+	        box-shadow: 0 0 0.3em #000E71;
 }
 
 #grailsLogo {
-	background-color: #abbf78;
+	background-color: #F5F5F5;
 }
 
 /* replace with .no-boxshadow body if you have modernizr available */
@@ -65,7 +65,7 @@ body {
 }
 
 a:link, a:visited, a:hover {
-	color: #48802c;
+	color: #39547F;
 }
 
 a:hover, a:active {
@@ -73,7 +73,7 @@ a:hover, a:active {
 }
 
 h1 {
-	color: #48802c;
+	color: #39547F;/*old color: #48802c;*/
 	font-weight: normal;
 	font-size: 1.25em;
 	margin: 0.8em 0 0.3em 0;
@@ -108,7 +108,7 @@ img {
 }
 
 .footer {
-	background: #abbf78;
+	background: #F5F5F5; /* old color: #abbf78;*/
 	color: #000;
 	clear: both;
 	font-size: 0.8em;
@@ -283,7 +283,7 @@ input:focus, select:focus, textarea:focus {
 }
 
 .required-indicator {
-	color: #48802C;
+	color: #39547F;
 	display: inline-block;
 	font-weight: bold;
 	margin-left: 0.3em;
@@ -476,7 +476,7 @@ th.desc a {
 }
 
 th:hover, tr:hover {
-	background: #E1F2B6;
+	background: #91A5C1; /* old color: #E1F2B6; */
 }
 
 /* PAGINATION */

@@ -12,6 +12,6 @@
 		<g:message code="arquivo.descritores.label" default="Descritores" />
 		
 	</label>
-	<g:select name="descritores" from="${com.uem.app.Descritor.list()}" multiple="multiple" optionKey="id" size="5" value="${arquivoInstance?.descritores*.id}" class="many-to-many"/>
+	<g:select name="descritores" from="${descritores}" multiple="multiple" optionKey="id" size="5" value="${arquivoInstance?.descritores*.id}" class="many-to-many"/>
 </div>
 
