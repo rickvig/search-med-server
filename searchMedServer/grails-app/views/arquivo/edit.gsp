@@ -27,7 +27,7 @@
 				</g:eachError>
 			</ul>
 			</g:hasErrors>
-			<g:form url="[resource:arquivoInstance, action:'update']" method="PUT" >
+			<g:form url="[resource:arquivoInstance, action:'update']" enctype="multipart/form-data" >
 				<g:hiddenField name="version" value="${arquivoInstance?.version}" />
 				<fieldset class="form">
 					<g:render template="form"/>
