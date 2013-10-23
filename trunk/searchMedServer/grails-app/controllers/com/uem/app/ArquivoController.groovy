@@ -9,8 +9,10 @@ import grails.transaction.Transactional
 
 @Transactional(readOnly = true)
 class ArquivoController {
+	
+	def arquivoService
 
-	static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
+	static allowedMethods = [save: "POST", update: "POST", delete: "DELETE"]
 
 	def index(Integer max) {
 		params.max = Math.min(max ?: 10, 100)
@@ -29,25 +31,8 @@ class ArquivoController {
 	def save(Arquivo arquivoInstance) {
 
 		def uploadedFile = request.getFile('file')
-		if(!uploadedFile.empty){
-			arquivoInstance.nomeArquivo = uploadedFile.name
-			arquivoInstance.nomeOriginal = uploadedFile.originalFilename
-			arquivoInstance.tamanhoArquivo = uploadedFile.size
-			arquivoInstance.contentType = uploadedFile.contentType
-		}
-
 		def webRootDir = servletContext.getRealPath("/")
-		File userDir = new File(webRootDir, "/files")
-		userDir.mkdirs()
-		File destino = new File(userDir, uploadedFile.originalFilename)
-
-		try {
-			uploadedFile.transferTo(destino)
-			arquivoInstance.caminhoRelativo = "${userDir.path}/${uploadedFile.originalFilename}"
-			println arquivoInstance.caminhoRelativo
-		} catch (Exception e) {
-			e.printStackTrace()
-		}
+		arquivoService.setArquivoSalvaFile(arquivoInstance, uploadedFile, webRootDir)
 
 		if (arquivoInstance == null) {
 			notFound()
@@ -79,27 +64,10 @@ class ArquivoController {
 
 	@Transactional
 	def update(Arquivo arquivoInstance) {
-
+		
 		def uploadedFile = request.getFile('file')
-		if(!uploadedFile.empty){
-			arquivoInstance.nomeArquivo = uploadedFile.name
-			arquivoInstance.nomeOriginal = uploadedFile.originalFilename
-			arquivoInstance.tamanhoArquivo = uploadedFile.size
-			arquivoInstance.contentType = uploadedFile.contentType
-		}
-
 		def webRootDir = servletContext.getRealPath("/")
-		File userDir = new File(webRootDir, "/files")
-		userDir.mkdirs()
-		File destino = new File(userDir, uploadedFile.originalFilename)
-
-		try {
-			uploadedFile.transferTo(destino)
-			arquivoInstance.caminhoRelativo = "${userDir.path}/${uploadedFile.originalFilename}"
-			println arquivoInstance.caminhoRelativo
-		} catch (Exception e) {
-			e.printStackTrace()
-		}
+		arquivoService.setArquivoSalvaFile(arquivoInstance, uploadedFile, webRootDir)
 
 		if (arquivoInstance == null) {
 			notFound()
