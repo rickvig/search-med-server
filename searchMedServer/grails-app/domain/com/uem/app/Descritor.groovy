@@ -9,14 +9,14 @@ class Descritor {
 	
 	String idDecs
 	String nome
-
+	
     static constraints = {
-		idDecs blank: false
+		idDecs blank: false, unique: true
 		nome blank: false
     }
 	
 	@Override
 	public String toString() {
-		"$nome - $idDecs"
+		"$nome"
 	}
 }

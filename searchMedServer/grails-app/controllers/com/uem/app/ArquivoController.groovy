@@ -9,7 +9,7 @@ import grails.transaction.Transactional
 
 @Transactional(readOnly = true)
 class ArquivoController {
-	
+
 	def arquivoService
 
 	static allowedMethods = [save: "POST", update: "POST", delete: "DELETE"]
@@ -24,7 +24,7 @@ class ArquivoController {
 	}
 
 	def create() {
-		respond new Arquivo(params)
+		[arquivoInstance: new Arquivo(params), descritores: arquivoService.getDescritoresFree()]
 	}
 
 	@Transactional
@@ -46,25 +46,20 @@ class ArquivoController {
 
 		arquivoInstance.save flush:true
 
-		request.withFormat {
-			form {
-				flash.message = message(code: 'default.created.message', args: [
-					message(code: 'arquivoInstance.label', default: 'Arquivo'),
-					arquivoInstance.id
-				])
-				redirect arquivoInstance
-			}
-			'*' { respond arquivoInstance, [status: CREATED] }
-		}
+		flash.message = message(code: 'default.created.message', args: [
+			message(code: 'arquivoInstance.label', default: 'Arquivo'),
+			arquivoInstance.id
+		])
+		redirect arquivoInstance
 	}
 
 	def edit(Arquivo arquivoInstance) {
-		respond arquivoInstance
+		[arquivoInstance: arquivoInstance, descritores: arquivoService.getDescritoresFree(arquivoInstance)]
 	}
 
 	@Transactional
 	def update(Arquivo arquivoInstance) {
-		
+
 		def uploadedFile = request.getFile('file')
 		def webRootDir = servletContext.getRealPath("/")
 		arquivoService.setArquivoSalvaFile(arquivoInstance, uploadedFile, webRootDir)
@@ -81,16 +76,11 @@ class ArquivoController {
 
 		arquivoInstance.save flush:true
 
-		request.withFormat {
-			form {
-				flash.message = message(code: 'default.updated.message', args: [
-					message(code: 'Arquivo.label', default: 'Arquivo'),
-					arquivoInstance.id
-				])
-				redirect arquivoInstance
-			}
-			'*'{ respond arquivoInstance, [status: OK] }
-		}
+		flash.message = message(code: 'default.updated.message', args: [
+			message(code: 'Arquivo.label', default: 'Arquivo'),
+			arquivoInstance.id
+		])
+		redirect (action: "index")
 	}
 
 	@Transactional
@@ -130,9 +120,9 @@ class ArquivoController {
 
 	def getArquivo() {
 		def resposta = [error: false]
-		
-		println params
 
+		println "Chamou: IdDeCS: "+params.id
+		
 		try {
 			// Exemplo de id: B01_050_150_900_649_801_400_112_199_120_510
 			def idDecs = params.id.replace('_', '.')
@@ -150,13 +140,12 @@ class ArquivoController {
 			resposta.error = true
 			e.printStackTrace()
 		}
-		
+
 		withFormat {
 			json { render resposta as JSON }
 			xml { render resposta as XML }
 		}
 	}
-
 
 	/* se for responder para fazer download		
 	 response.setHeader("Content-Type", "application/octet-stream;")

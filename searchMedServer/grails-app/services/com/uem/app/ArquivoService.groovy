@@ -25,4 +25,16 @@ class ArquivoService {
 			e.printStackTrace()
 		}
     }
+	
+	def getDescritoresFree(Arquivo arquivo) {
+		def query = "select distinct d from Descritor as d where d not in (select dca from Arquivo as a join a.descritores as dca)"
+		List descritores = Descritor.executeQuery(query)
+		if (arquivo) 
+			arquivo.descritores.each{ descritores.add(it) }
+		descritores  
+	}
+	
+	def getDescritoresFree() {
+		getDescritoresFree(null)
+	}
 }
